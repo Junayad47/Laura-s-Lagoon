@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laura's Lagoon</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="/images/logo.png" alt="Laura's Lagoon Logo" class="logo">
+                <h1>Laura's Lagoon</h1>
+            </div>
+            <nav class="nav-links">
+                <a href="/">Home</a>
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section class="coral-grid">
+            <% if (corals && corals.length> 0) { %>
+                <% corals.forEach(coral=> { %>
+                    <div class="coral-item">
+                        <h2>
+                            <%= coral.name %>
+                        </h2>
+                        <% if (coral.images && coral.images.length> 0) { %>
+                            <img src="<%= coral.images[0] %>" alt="<%= coral.name %>">
+                            <% } else { %>
+                                <div class="no-image">No image available</div>
+                                <% } %>
+                                    <p>ID: <%= coral.id %>
+                                    </p>
+                                    <p>Availability: <%= coral.availability %>
+                                    </p>
+                                    <a href="/coral/<%= coral.id %>">View Details</a>
+                    </div>
+                    <% }); %>
+                        <% } else { %>
+                            <p>No corals available at the moment.</p>
+                            <% } %>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Laura's Lagoon</p>
+    </footer>
+</body>
+
+</html>

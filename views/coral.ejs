@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= coral.name %> - Laura's Lagoon
+    </title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="/images/logo.png" alt="Laura's Lagoon Logo" class="logo">
+                <h1>Laura's Lagoon</h1>
+            </div>
+            <nav class="nav-links">
+                <a href="/">Home</a>
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section class="coral-details">
+            <h2>
+                <%= coral.name %>
+            </h2>
+            <p>ID: <%= coral.id %>
+            </p>
+            <div class="coral-images">
+                <% coral.images.forEach(image=> { %>
+                    <img src="<%= image %>" alt="<%= coral.name %>" class="coral-image">
+                    <% }); %>
+            </div>
+            <div class="coral-description">
+                <h3>Description</h3>
+                <p>
+                    <%= coral.description %>
+                </p>
+            </div>
+            <div class="coral-availability">
+                <h3>Availability</h3>
+                <p>
+                    <%= coral.availability %>
+                </p>
+            </div>
+            <div class="contact-info">
+                <h3>Contact the Seller</h3>
+                <p>Phone: 555-123-4567</p>
+            </div>
+        </section>
+        <a href="/" class="back-button">Back to Main Menu</a>
+    </main>
+    <footer>
+        <p>&copy; 2024 Laura's Lagoon</p>
+    </footer>
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+    <script src="/js/imageModal.js"></script>
+</body>
+
+</html>

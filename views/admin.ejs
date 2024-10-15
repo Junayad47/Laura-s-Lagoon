@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Laura's Lagoon</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="/images/logo.png" alt="Laura's Lagoon Logo" class="logo">
+                <h1>Laura's Lagoon</h1>
+            </div>
+            <nav class="nav-links">
+                <a href="/">Home</a>
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section class="admin-panel">
+            <h2>Add New Coral</h2>
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <label for="coralId">Coral ID:</label>
+                <input type="text" id="coralId" name="coralId" required>
+
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required></textarea>
+
+                <label for="availability">Availability:</label>
+                <select id="availability" name="availability" required>
+                    <option value="In Stock">In Stock</option>
+                    <option value="Out of Stock">Out of Stock</option>
+                    <option value="Pre-order">Pre-order</option>
+                </select>
+
+                <label for="images">Images (max 4):</label>
+                <input type="file" id="images" name="images" accept="image/jpeg" multiple required>
+
+                <button type="submit">Upload</button>
+            </form>
+        </section>
+        <section class="coral-list">
+            <h2>Existing Corals</h2>
+            <ul>
+                <% corals.forEach(coral=> { %>
+                    <li>
+                        <%= coral.name %> (ID: <%= coral.id %>) - <%= coral.availability %>
+                    </li>
+                    <% }); %>
+            </ul>
+        </section>
+        <a href="/" class="back-button">Back to Main Menu</a>
+    </main>
+    <footer>
+        <p>&copy; 2024 Laura's Lagoon</p>
+    </footer>
+</body>
+
+</html>

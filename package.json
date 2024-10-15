@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "Sea coral selling website",
   "main": "app.js",
-  "entry point": "app.js",
+  "entry point": "index.ejs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

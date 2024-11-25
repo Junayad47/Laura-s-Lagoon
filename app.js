@@ -1,3 +1,4 @@
+// api/app.js
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -7,9 +8,10 @@ const bodyParser = require('body-parser');
 const app = express();
 
 // Basic express setup
+app.set('views', path.join(process.cwd(), 'views'));
 app.set('view engine', 'ejs');
-app.use(express.static('public'));
-app.use('/coral-data', express.static('coral-data'));
+app.use(express.static(path.join(process.cwd(), 'public')));
+app.use('/coral-data', express.static(path.join(process.cwd(), 'coral-data')));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Multer setup for file uploads
@@ -28,7 +30,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ 
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+  limits: { fileSize: 5 * 1024 * 1024 } 
 });
 
 // Read coral data
@@ -75,31 +77,56 @@ function getCoralData() {
 
 // Routes
 app.get('/', (req, res) => {
-  const corals = getCoralData();
-  res.render('index', { corals });
+  try {
+    const corals = getCoralData();
+    res.render('index', { corals });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Error loading page');
+  }
 });
 
 app.get('/contact', (req, res) => {
-  res.render('contact');
+  try {
+    res.render('contact');
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Error loading page');
+  }
 });
 
 app.get('/about', (req, res) => {
-  res.render('about');
+  try {
+    res.render('about');
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Error loading page');
+  }
 });
 
 app.get('/coral/:id', (req, res) => {
-  const corals = getCoralData();
-  const coral = corals.find(c => c.id === req.params.id);
-  if (coral) {
-    res.render('coral', { coral });
-  } else {
-    res.status(404).send('Coral not found');
+  try {
+    const corals = getCoralData();
+    const coral = corals.find(c => c.id === req.params.id);
+    if (coral) {
+      res.render('coral', { coral });
+    } else {
+      res.status(404).send('Coral not found');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Error loading page');
   }
 });
 
 app.get('/admin', (req, res) => {
-  const corals = getCoralData();
-  res.render('admin', { corals });
+  try {
+    const corals = getCoralData();
+    res.render('admin', { corals });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Error loading page');
+  }
 });
 
 app.post('/upload', upload.array('images', 4), (req, res) => {
@@ -124,13 +151,4 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something went wrong!');
 });
 
-// Export for Vercel
 module.exports = app;
-
-// Start server if not in Vercel environment
-if (process.env.NODE_ENV !== 'production') {
-  const port = process.env.PORT || 8080;
-  app.listen(port, () => {
-    console.log(`Laura's Lagoon listening at http://localhost:${port}`);
-  });
-}

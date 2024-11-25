@@ -1,4 +1,3 @@
-// api/app.js
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -8,17 +7,17 @@ const bodyParser = require('body-parser');
 const app = express();
 
 // Basic express setup
-app.set('views', path.join(process.cwd(), 'views'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.use(express.static(path.join(process.cwd(), 'public')));
-app.use('/coral-data', express.static(path.join(process.cwd(), 'coral-data')));
+app.use(express.static('public'));
+app.use('/coral-data', express.static('coral-data'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Multer setup for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const coralId = req.body.coralId;
-    const dir = path.join(process.cwd(), 'coral-data', coralId);
+    const dir = path.join(__dirname, 'coral-data', coralId);
     fs.mkdirSync(dir, { recursive: true });
     cb(null, dir);
   },
@@ -35,7 +34,7 @@ const upload = multer({
 
 // Read coral data
 function getCoralData() {
-  const coralDir = path.join(process.cwd(), 'coral-data');
+  const coralDir = path.join(__dirname, 'coral-data');
   let corals = [];
 
   try {
@@ -132,7 +131,7 @@ app.get('/admin', (req, res) => {
 app.post('/upload', upload.array('images', 4), (req, res) => {
   try {
     const { coralId, description, availability } = req.body;
-    const coralDir = path.join(process.cwd(), 'coral-data', coralId);
+    const coralDir = path.join(__dirname, 'coral-data', coralId);
     
     fs.mkdirSync(coralDir, { recursive: true });
     fs.writeFileSync(path.join(coralDir, 'description.txt'), description);
@@ -151,4 +150,13 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something went wrong!');
 });
 
+// Export the express app
 module.exports = app;
+
+// Start the server if not in production
+if (process.env.NODE_ENV !== 'production') {
+  const port = process.env.PORT || 8080;
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
+}

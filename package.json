@@ -1,7 +1,7 @@
 {
   "name": "lauras-lagoon",
   "version": "1.0.0",
-  "main": "api/app.js",
+  "main": "index.js",
   "engines": {
     "node": "18.x"
   },
@@ -12,7 +12,7 @@
     "body-parser": "^1.20.2"
   },
   "scripts": {
-    "start": "node api/app.js",
-    "dev": "nodemon api/app.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   }
 }

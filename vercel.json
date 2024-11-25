@@ -2,14 +2,22 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/app.js",
+      "src": "app.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
+      "src": "/(css|images|js|fonts)/(.*)",
+      "dest": "/public/$1/$2"
+    },
+    {
+      "src": "/coral-data/(.*)",
+      "dest": "/coral-data/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/api/app.js"
+      "dest": "/app.js"
     }
   ]
 }
